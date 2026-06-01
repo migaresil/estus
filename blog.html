@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>blog — estus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="site-name">estus</a>
+    <a href="index.html" class="back">← inicio</a>
+  </header>
+
+  <main>
+    <h2 class="page-title">blog</h2>
+
+    <!--
+      CÓMO AGREGAR UNA ENTRADA:
+      1. Crea un archivo nuevo en la carpeta "posts/" (ej: posts/mi-entrada.html)
+         Puedes copiar el archivo posts/entrada-ejemplo.html como plantilla
+      2. Copia un bloque <article> de los de abajo y actualiza:
+         - href="posts/mi-entrada.html"
+         - La fecha (en formato legible)
+         - El título
+         - El extracto (2–3 líneas de intro)
+      3. Pon las entradas más nuevas arriba
+    -->
+
+    <div class="blog-list">
+
+      <article>
+        <a href="posts/nejayote-scp.html">
+          <time>28 mayo 2026</time>
+          <h3>Lo que aprendí haciendo una proteína unicelular de nejayote</h3>
+          <p>Nadie te dice que el verdadero reto de la bioingeniería no es el proceso, sino convencer a alguien de que la proteína de levadura es el futuro de la alimentación animal.</p>
+        </a>
+      </article>
+
+      <article>
+        <a href="posts/egel-cuatro-dias.html">
+          <time>3 abril 2026</time>
+          <h3>Cómo estudié para el EGEL Plus en cuatro días</h3>
+          <p>Sistemas biológicos era mi punto débil y lo dejé para el final. Error. Aquí está lo que hubiera hecho diferente y lo que sí funcionó.</p>
+        </a>
+      </article>
+
+      <article>
+        <a href="posts/marketing-a-research.html">
+          <time>15 febrero 2026</time>
+          <h3>De marketing a market research: lo que cambia y lo que no</h3>
+          <p>Cuando me moví al equipo de research en Lilly pensé que iba a hacer básicamente lo mismo con otro nombre. Me equivoqué bastante.</p>
+        </a>
+      </article>
+
+    </div>
+  </main>
+
+</body>
+</html>
