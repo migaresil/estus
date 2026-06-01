@@ -11,57 +11,70 @@
 </head>
 <body>
 
-  <header>
-    <a href="index.html" class="site-name">estus</a>
-    <a href="index.html" class="back">← inicio</a>
-  </header>
+ <header>
+  <a href="index.html" class="site-name">estus</a>
+  <a href="index.html" class="back">← inicio</a>
+</header>
 
-  <main>
-    <h2 class="page-title">galería</h2>
+<main>
+  <h2 class="page-title">galería</h2>
 
-    <!--
-      CÓMO AGREGAR FOTOS:
-      1. Pon tus imágenes en una carpeta llamada "fotos/" dentro del proyecto
-      2. Copia un bloque <figure> de los de abajo y cambia:
-         - src="fotos/TU-IMAGEN.jpg"
-         - <figcaption>Tu título aquí</figcaption>
-      3. Puedes poner las fotos en el orden que quieras — el masonry las acomoda solas
-    -->
+  <div class="gallery">
 
-    <div class="gallery">
+    <figure>
+      <img src="fotos/monochrome.jpeg" alt="Monochrome" onclick="abrirLightbox(this)">
+      <figcaption>Monochrome, Kumamoto, sep 2024</figcaption>
+    </figure>
 
-      <figure>
-        <img src="fotos/monochrome.jpeg" alt="Monochrome">
-        <figcaption>Monochrome, Kumamoto, sep 2024</figcaption>
-      </figure>
+    <figure>
+      <img src="fotos/chiens.jpeg" alt="Chiens" onclick="abrirLightbox(this)">
+      <figcaption>París, dic 2024</figcaption>
+    </figure>
 
-      <figure>
-        <img src="fotos/chiens.jpeg" alt="Chiens">
-        <figcaption>París, dic 2024</figcaption>
-      </figure>
+    <figure>
+      <img src="fotos/xujui.jpeg" alt="Xujuy" onclick="abrirLightbox(this)">
+      <figcaption>Bacalar, abr 2025</figcaption>
+    </figure>
 
-      <figure>
-        <img src="fotos/xujui.jpeg" alt="Xujuy">
-        <figcaption>Bacalar, abr 2025</figcaption>
-      </figure>
+    <figure>
+      <img src="fotos/pescador.jpeg" alt="Pescador" onclick="abrirLightbox(this)">
+      <figcaption>San Marcos La Laguna, feb 2026</figcaption>
+    </figure>
 
-      <figure>
-        <img src="fotos/pescador.jpeg" alt="Pescador">
-        <figcaption>San Marcos La Laguna, feb 2026</figcaption>
-      </figure>
+    <figure>
+      <img src="fotos/chelas.jpeg" alt="Chelas" onclick="abrirLightbox(this)">
+      <figcaption>Querétaro, dic 2025</figcaption>
+    </figure>
 
-      <figure>
-        <img src="fotos/chelas.jpeg" alt="chelas">
-        <figcaption>Querétaro, dic 2025</figcaption>
-      </figure>
+    <figure>
+      <img src="fotos/iglesiaguate.jpeg" alt="Iglesia" onclick="abrirLightbox(this)">
+      <figcaption>Antigua, feb 2026</figcaption>
+    </figure>
 
-      <figure>
-        <img src="fotos/iglesiaguate.jpeg" alt="iglesia">
-        <figcaption>Antigua, feb 2026</figcaption>
-      </figure>
+  </div>
+</main>
 
-    </div>
-  </main>
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="cerrarLightbox()">
+  <img id="lightbox-img" src="" alt="">
+  <p class="lightbox-caption" id="lightbox-caption"></p>
+</div>
+
+<script>
+  function abrirLightbox(img) {
+    document.getElementById('lightbox-img').src = img.src;
+    document.getElementById('lightbox-caption').textContent = img.closest('figure').querySelector('figcaption').textContent;
+    document.getElementById('lightbox').classList.add('open');
+  }
+
+  function cerrarLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') cerrarLightbox();
+  });
+</script>
 
 </body>
 </html>

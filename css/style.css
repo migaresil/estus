@@ -315,3 +315,40 @@ main {
     gap: 40px;
   }
 }
+
+/* ─── Lightbox ────────────────────────────────── */
+
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 25, 22, 0.92);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+
+.lightbox.open {
+  display: flex;
+}
+
+.lightbox img {
+  max-width: 90vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 2px;
+}
+
+.lightbox-caption {
+  position: fixed;
+  bottom: 28px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: rgba(247, 245, 240, 0.6);
+  letter-spacing: 0.03em;
+}
