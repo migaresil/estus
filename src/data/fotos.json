@@ -1,0 +1,357 @@
+[
+  {
+    "id": "monochrome",
+    "archivo": "monochrome.jpeg",
+    "pie": "Monochrome, Kumamoto, sep 2024"
+  },
+  {
+    "id": "chiens",
+    "archivo": "chiens.jpeg",
+    "pie": "París, dic 2024"
+  },
+  {
+    "id": "xujui",
+    "archivo": "xujui.jpeg",
+    "pie": "Bacalar, abr 2025"
+  },
+  {
+    "id": "pescador",
+    "archivo": "pescador.jpeg",
+    "pie": "San Marcos La Laguna, feb 2026"
+  },
+  {
+    "id": "chelas",
+    "archivo": "chelas.jpeg",
+    "pie": "Querétaro, dic 2025"
+  },
+  {
+    "id": "iglesiaguate",
+    "archivo": "iglesiaguate.jpeg",
+    "pie": "Antigua, feb 2026"
+  },
+  {
+    "id": "kekas",
+    "archivo": "kekas.jpeg",
+    "pie": "Tlaltizapán, ene 2026"
+  },
+  {
+    "id": "nicovelik",
+    "archivo": "nicovelik.jpeg",
+    "pie": "Drunken dog, mayo 2026"
+  },
+  {
+    "id": "unaescuela",
+    "archivo": "unaescuela.jpeg",
+    "pie": "Anahuacali, jun 2025"
+  },
+  {
+    "id": "florero",
+    "archivo": "florero.jpeg",
+    "pie": "cdmx, feb 2026"
+  },
+  {
+    "id": "pizze",
+    "archivo": "pizze.jpeg",
+    "pie": "la roma, dic 2025"
+  },
+  {
+    "id": "amanecerenfuego",
+    "archivo": "amanecerenfuego.jpeg",
+    "pie": "Fuego, feb 2026"
+  },
+  {
+    "id": "metrohidalgo",
+    "archivo": "metrohidalgo.jpeg",
+    "pie": "Metro Hidalgo, ene 2025"
+  },
+  {
+    "id": "puerto",
+    "archivo": "puerto.jpeg",
+    "pie": "Panajachel, feb 2026"
+  },
+  {
+    "id": "guatebarco",
+    "archivo": "guatebarco.jpeg",
+    "pie": "San Juan, feb 2026"
+  },
+  {
+    "id": "estudiofrida",
+    "archivo": "estudiofrida.jpeg",
+    "pie": "San Ángel, ene 2026"
+  },
+  {
+    "id": "sanmike",
+    "archivo": "sanmike.jpeg",
+    "pie": "San Miguel de Allende, dic 2025"
+  },
+  {
+    "id": "troca",
+    "archivo": "troca.jpeg",
+    "pie": "Antigua, feb 2026"
+  },
+  {
+    "id": "bodaguate",
+    "archivo": "bodaguate.jpeg",
+    "pie": "Antigua, feb 2026"
+  },
+  {
+    "id": "museoguate",
+    "archivo": "museoguate.jpeg",
+    "pie": "Franka, feb 2026"
+  },
+  {
+    "id": "fachaditas",
+    "archivo": "fachaditas.jpeg",
+    "pie": "Antigua, feb 2026"
+  },
+  {
+    "id": "senorysenora",
+    "archivo": "senorysenora.jpeg",
+    "pie": "Morelos, dic 2023"
+  },
+  {
+    "id": "playa",
+    "archivo": "playa.jpeg",
+    "pie": "Riviera Maya, jul 2025"
+  },
+  {
+    "id": "centro",
+    "archivo": "centro.jpeg",
+    "pie": "Centro Histórico, mayo 2024"
+  },
+  {
+    "id": "castillo",
+    "archivo": "castillo.jpeg",
+    "pie": "Chapultepec, mayo 2024"
+  },
+  {
+    "id": "expo",
+    "archivo": "expo.jpeg",
+    "pie": "muac, feb 2026"
+  },
+  {
+    "id": "ciclista",
+    "archivo": "ciclista.jpeg",
+    "pie": "París, dic 2024"
+  },
+  {
+    "id": "laguna",
+    "archivo": "laguna.jpeg",
+    "pie": "Laguna, ago 2025"
+  },
+  {
+    "id": "roosevelt",
+    "archivo": "roosevelt.jpeg",
+    "pie": "nyc, jun 2023"
+  },
+  {
+    "id": "depas",
+    "archivo": "depas.jpeg",
+    "pie": "Puebla, mayo 2025"
+  },
+  {
+    "id": "viejitos",
+    "archivo": "viejitos.jpeg",
+    "pie": "Panajachel, feb 2026"
+  },
+  {
+    "id": "pena",
+    "archivo": "pena.jpeg",
+    "pie": "Peña de Bernal, jul 2025"
+  },
+  {
+    "id": "torre",
+    "archivo": "torre.jpeg",
+    "pie": "París, dic 2024"
+  },
+  {
+    "id": "puente",
+    "archivo": "puente.jpeg",
+    "pie": "Londres, dic 2024"
+  },
+  {
+    "id": "charis",
+    "archivo": "charis.jpg",
+    "pie": "Tlalpan, jul 2026"
+  },
+  {
+    "id": "teamback",
+    "archivo": "teamback.jpg",
+    "pie": "Benito Juárez, jul 2026"
+  },
+  {
+    "id": "cuates",
+    "archivo": "cuates.jpg",
+    "pie": "GGHouse, jul 2026"
+  },
+  {
+    "id": "banco",
+    "archivo": "banco.jpg",
+    "pie": "Calgary, jul 2026"
+  },
+  {
+    "id": "torre-saluda",
+    "archivo": "torre-saluda.jpg",
+    "pie": "Calgary, jul 2026"
+  },
+  {
+    "id": "biblioteca",
+    "archivo": "biblioteca.jpg",
+    "pie": "Calgary, jul 2026"
+  },
+  {
+    "id": "sala",
+    "archivo": "sala.jpg",
+    "pie": "Calgary, jul 2026"
+  },
+  {
+    "id": "peace-bridge",
+    "archivo": "peace-bridge.jpg",
+    "pie": "Calgary, jul 2026"
+  },
+  {
+    "id": "rio",
+    "archivo": "rio.jpg",
+    "pie": "Banff, jul 2026"
+  },
+  {
+    "id": "lago",
+    "archivo": "lago.jpg",
+    "pie": "Banff, jul 2026"
+  },
+  {
+    "id": "turista",
+    "archivo": "turista.jpg",
+    "pie": "Banff, jul 2026"
+  },
+  {
+    "id": "luis-2",
+    "archivo": "luis-2.jpg",
+    "pie": "Lake Louise, jul 2026"
+  },
+  {
+    "id": "chalet",
+    "archivo": "chalet.jpg",
+    "pie": "Lake Louise, jul 2026"
+  },
+  {
+    "id": "swimmer",
+    "archivo": "swimmer.jpg",
+    "pie": "Lake Louise, jul 2026"
+  },
+  {
+    "id": "biker",
+    "archivo": "biker.jpg",
+    "pie": "Calgary, jul 2026"
+  },
+  {
+    "id": "calgary",
+    "archivo": "calgary.jpg",
+    "pie": "Calgary, jul 2026"
+  },
+  {
+    "id": "riverside",
+    "archivo": "riverside.jpg",
+    "pie": "Banff, jul 2026"
+  },
+  {
+    "id": "mundial",
+    "archivo": "mundial.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "dinner",
+    "archivo": "dinner.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "tender",
+    "archivo": "tender.jpg",
+    "pie": "Calgary, jul 2026"
+  },
+  {
+    "id": "seniors",
+    "archivo": "seniors.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "estampas",
+    "archivo": "estampas.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "callejon",
+    "archivo": "callejon.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "moa",
+    "archivo": "moa.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "moa2",
+    "archivo": "moa2.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "vancity",
+    "archivo": "vancity.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "luminara",
+    "archivo": "luminara.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "aguila",
+    "archivo": "aguila.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "gastown",
+    "archivo": "gastown.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "edificio",
+    "archivo": "edificio.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "escritora",
+    "archivo": "escritora.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "sailor",
+    "archivo": "sailor.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "botes",
+    "archivo": "botes.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "pareja",
+    "archivo": "pareja.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "puerta",
+    "archivo": "puerta.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "dibujante",
+    "archivo": "dibujante.jpg",
+    "pie": "Vancouver, jul 2026"
+  },
+  {
+    "id": "fruteros",
+    "archivo": "fruteros.jpg",
+    "pie": "Vancouver, jul 2026"
+  }
+]

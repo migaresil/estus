@@ -1,0 +1,65 @@
+name: construir y publicar estus
+
+on:
+  # Cada push a main
+  push:
+    branches: [main]
+  # Una vez al día, 9:00 UTC (3:00 am en CDMX)
+  # Cuando haya integraciones externas (fase 2 en adelante) esto es lo que
+  # mantiene el sitio al día sin que tengas que hacer nada.
+  schedule:
+    - cron: '0 9 * * *'
+  # Botón manual en la pestaña Actions de GitHub.
+  # Sirve para probar un loader nuevo sin esperar al horario, y para revivir
+  # el workflow si GitHub lo apagó por inactividad.
+  workflow_dispatch:
+
+# Permisos que necesita el deploy a Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Si hay dos builds encolados, deja solo el último
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bajar el repo
+        uses: actions/checkout@v4
+
+      - name: Instalar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Construir el sitio
+        run: npm run build
+        # A partir de la fase 4 las llaves de API van aquí, leídas desde
+        # los secrets del repo. Nunca en el código.
+        # env:
+        #   HARDCOVER_API_KEY: ${{ secrets.HARDCOVER_API_KEY }}
+
+      - name: Preparar el artefacto
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  publicar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar en GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url.js';
+
+// Las filas del inicio. Agregar una sección es agregar una línea aquí.
+// `pronto: true` la deja visible pero desactivada, con la etiqueta.
+const secciones = [
+  { nombre: 'galería', href: url('/galeria') },
+  { nombre: 'escritos', href: url('/escritos') },
+  { nombre: 'cdmx', href: '#', pronto: true },
+];
+---
+
+<Base titulo={null}>
+  <main class="home">
+    <div class="hero">
+      <h1>hola.</h1>
+    </div>
+
+    <nav class="main-nav">
+      {
+        secciones.map((s) => (
+          <a href={s.href} class={s.pronto ? 'nav-link soon' : 'nav-link'}>
+            {s.nombre}
+            {s.pronto && <span class="tag">pronto</span>}
+          </a>
+        ))
+      }
+    </nav>
+  </main>
+</Base>

@@ -1,0 +1,50 @@
+---
+// Lightbox: abre una foto en grande sobre un fondo oscuro.
+//
+// Diferencia con la versión anterior: antes cada <img> traía un
+// onclick="abrirLightbox(this)" escrito a mano, así que una foto a la que se
+// le olvidaba el atributo simplemente no abría. Ahora el listener se pone
+// una sola vez sobre el contenedor de la galería y funciona para todas,
+// incluidas las que se agreguen después.
+---
+
+<div class="lightbox" id="lightbox">
+  <img id="lightbox-img" src="" alt="" />
+  <p class="lightbox-caption" id="lightbox-caption"></p>
+</div>
+
+<script>
+  const caja = document.getElementById('lightbox');
+  const img = document.getElementById('lightbox-img');
+  const pie = document.getElementById('lightbox-caption');
+  const galeria = document.querySelector('.gallery');
+
+  function abrir(origen) {
+    // data-grande trae la versión grande; si no está, usamos la que se ve.
+    img.src = origen.dataset.grande || origen.currentSrc || origen.src;
+    img.alt = origen.alt || '';
+    pie.textContent = origen.dataset.pie || '';
+    caja.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function cerrar() {
+    caja.classList.remove('open');
+    document.body.style.overflow = '';
+    img.src = '';
+  }
+
+  // Un solo listener para toda la galería, en vez de uno por imagen.
+  if (galeria) {
+    galeria.addEventListener('click', (e) => {
+      const objetivo = e.target.closest('img');
+      if (objetivo) abrir(objetivo);
+    });
+  }
+
+  if (caja) caja.addEventListener('click', cerrar);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') cerrar();
+  });
+</script>

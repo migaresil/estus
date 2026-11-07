@@ -1,0 +1,38 @@
+---
+// Layout base: el <head>, el header y el footer que comparten todas las páginas.
+// Antes esto estaba copiado en cada archivo HTML. Ahora vive en un solo lugar.
+import '../styles/global.css';
+import { url } from '../lib/url.js';
+
+const {
+  titulo,
+  descripcion = 'Fotografías y escritos de Miguel Reséndiz.',
+  volver = null, // { texto, href } para el link de regreso del header
+} = Astro.props;
+
+const tituloCompleto = titulo ? `${titulo} — estus` : 'estus';
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header>
+      <a href={url('/')} class="site-name">estus</a>
+      {volver && <a href={volver.href} class="back">← {volver.texto}</a>}
+    </header>
+
+    <slot />
+  </body>
+</html>

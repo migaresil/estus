@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { url } from '../../lib/url.js';
+import { formateaFecha, fechaISO } from '../../lib/fecha.js';
+
+// Los borradores se quedan fuera del sitio publicado.
+// Ordenados de la más nueva a la más vieja, automáticamente — ya no hay que
+// acordarse de pegar la entrada nueva hasta arriba del archivo.
+const escritos = (await getCollection('escritos', ({ data }) => !data.borrador)).sort(
+  (a, b) => b.data.fecha.valueOf() - a.data.fecha.valueOf()
+);
+---
+
+<Base titulo="escritos" volver={{ texto: 'inicio', href: url('/') }}>
+  <main>
+    <h2 class="page-title">escritos</h2>
+
+    {
+      escritos.length === 0 ? (
+        <p style="color: var(--muted); font-size: 0.85rem;">
+          Todavía no hay escritos publicados.
+        </p>
+      ) : (
+        <div class="blog-list">
+          {escritos.map((e) => (
+            <article>
+              <a href={url(`/escritos/${e.id}`)}>
+                <time datetime={fechaISO(e.data.fecha)}>{formateaFecha(e.data.fecha)}</time>
+                <h3>{e.data.titulo}</h3>
+                <p>{e.data.extracto}</p>
+              </a>
+            </article>
+          ))}
+        </div>
+      )
+    }
+  </main>
+</Base>

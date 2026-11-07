@@ -1,0 +1,39 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { url } from '../../lib/url.js';
+import { formateaFecha, fechaISO } from '../../lib/fecha.js';
+
+// getStaticPaths le dice a Astro qué páginas generar. Una por escrito.
+// Esto es lo que reemplaza al trabajo de crear un archivo .html a mano
+// por cada entrada y acordarse de ponerlo en la carpeta correcta.
+export async function getStaticPaths() {
+  const escritos = await getCollection('escritos', ({ data }) => !data.borrador);
+  return escritos.map((entrada) => ({
+    params: { slug: entrada.id },
+    props: { entrada },
+  }));
+}
+
+const { entrada } = Astro.props;
+const { Content } = await render(entrada);
+---
+
+<Base
+  titulo={entrada.data.titulo}
+  descripcion={entrada.data.extracto}
+  volver={{ texto: 'escritos', href: url('/escritos') }}
+>
+  <main class="post">
+    <article>
+      <header class="post-header">
+        <time datetime={fechaISO(entrada.data.fecha)}>{formateaFecha(entrada.data.fecha)}</time>
+        <h1>{entrada.data.titulo}</h1>
+      </header>
+
+      <div class={entrada.data.verso ? 'post-body verso' : 'post-body'}>
+        <Content />
+      </div>
+    </article>
+  </main>
+</Base>

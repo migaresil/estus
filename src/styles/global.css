@@ -1,16 +1,18 @@
-/* estus — estilos globales */
+/* estus — estilos globales
+   Los tokens son los mismos del sitio original, sin cambios de valor. */
 
 :root {
   --bg: #f7f5f0;
   --fg: #1a1916;
   --muted: #7a7770;
-  --accent: #1a1916;
   --border: #d9d5cd;
   --font-display: 'DM Serif Display', Georgia, serif;
   --font-mono: 'DM Mono', 'Courier New', monospace;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -67,7 +69,7 @@ header {
   color: var(--fg);
 }
 
-/* ─── Main ────────────────────────────────────── */
+/* ─── Main ───────────────────────────────────── */
 
 main {
   flex: 1;
@@ -77,7 +79,7 @@ main {
   margin: 0 auto;
 }
 
-/* ─── Home ────────────────────────────────────── */
+/* ─── Inicio ─────────────────────────────────── */
 
 .home {
   display: flex;
@@ -139,7 +141,7 @@ main {
   text-transform: lowercase;
 }
 
-/* ─── Page title ──────────────────────────────── */
+/* ─── Título de página ───────────────────────── */
 
 .page-title {
   font-family: var(--font-display);
@@ -150,7 +152,7 @@ main {
   line-height: 1;
 }
 
-/* ─── Gallery ─────────────────────────────────── */
+/* ─── Galería ────────────────────────────────── */
 
 .gallery {
   columns: 3;
@@ -164,11 +166,10 @@ main {
 
 .gallery img {
   width: 100%;
+  height: auto;
   display: block;
   border-radius: 2px;
-  /* antes de que tengas fotos reales, muestra un placeholder gris */
-  background: var(--border);
-  min-height: 120px;
+  cursor: zoom-in;
 }
 
 .gallery figcaption {
@@ -192,7 +193,44 @@ main {
   }
 }
 
-/* ─── Blog list ───────────────────────────────── */
+/* ─── Lightbox ───────────────────────────────── */
+
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 25, 22, 0.92);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+
+.lightbox.open {
+  display: flex;
+}
+
+.lightbox img {
+  max-width: 90vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 2px;
+}
+
+.lightbox-caption {
+  position: fixed;
+  bottom: 28px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 300;
+  color: rgba(247, 245, 240, 0.6);
+  letter-spacing: 0.03em;
+}
+
+/* ─── Lista de escritos ──────────────────────── */
 
 .blog-list {
   display: flex;
@@ -243,7 +281,7 @@ main {
   line-height: 1.65;
 }
 
-/* ─── Blog post ───────────────────────────────── */
+/* ─── Escrito individual ─────────────────────── */
 
 .post {
   max-width: 640px;
@@ -273,7 +311,7 @@ main {
   line-height: 1.15;
 }
 
-.post article p {
+.post-body p {
   font-family: var(--font-mono);
   font-size: 0.875rem;
   font-weight: 300;
@@ -282,7 +320,7 @@ main {
   margin-bottom: 1.5rem;
 }
 
-.post article h2 {
+.post-body h2 {
   font-family: var(--font-display);
   font-size: 1.35rem;
   font-weight: 400;
@@ -291,18 +329,25 @@ main {
   line-height: 1.2;
 }
 
-.post article em {
+.post-body em {
   font-style: italic;
 }
 
-.post article img {
+.post-body img {
   width: 100%;
+  height: auto;
   border-radius: 2px;
   margin: 2rem 0;
   display: block;
 }
 
-/* ─── Responsive ──────────────────────────────── */
+/* Verso: conserva los saltos de línea de un poema.
+   Se activa poniendo `verso: true` en el frontmatter del escrito. */
+.post-body.verso p {
+  white-space: pre-line;
+}
+
+/* ─── Responsive ─────────────────────────────── */
 
 @media (max-width: 600px) {
   header {
@@ -314,41 +359,4 @@ main {
   .home {
     gap: 40px;
   }
-}
-
-/* ─── Lightbox ────────────────────────────────── */
-
-.lightbox {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(26, 25, 22, 0.92);
-  z-index: 100;
-  align-items: center;
-  justify-content: center;
-  cursor: zoom-out;
-}
-
-.lightbox.open {
-  display: flex;
-}
-
-.lightbox img {
-  max-width: 90vw;
-  max-height: 88vh;
-  object-fit: contain;
-  border-radius: 2px;
-}
-
-.lightbox-caption {
-  position: fixed;
-  bottom: 28px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 300;
-  color: rgba(247, 245, 240, 0.6);
-  letter-spacing: 0.03em;
 }
