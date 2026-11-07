@@ -102,6 +102,16 @@ Aquí va el texto. Markdown normal: un renglón en blanco separa párrafos,
 
 El nombre del archivo se vuelve la URL: `oaxaca.md` queda en `/escritos/oaxaca`. No hay que tocar ningún índice: la lista se arma sola, ordenada por fecha.
 
+### Si el extracto o el título llevan dos puntos
+
+Ponlo entre comillas:
+
+```yaml
+extracto: "Nunca he entendido a julio. El resto del año es legible: marzo anuncia la cuenta."
+```
+
+En YAML, unos dos puntos seguidos de espacio significan "aquí empieza otro campo", así que sin comillas el build falla con un error de `Nested mappings are not allowed`. Pasa igual con `#`, `[`, `]`, `{`, `}` al inicio del valor.
+
 ### Para poemas
 
 Agrega `verso: true` al frontmatter. Eso conserva los saltos de línea, que es el pendiente viejo del sitio — antes los poemas salían como un bloque corrido porque el HTML colapsa los renglones.
