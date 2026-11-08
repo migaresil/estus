@@ -56,17 +56,35 @@ header {
   opacity: 0.6;
 }
 
-.back {
+.secciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.seccion {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   font-weight: 300;
   color: var(--muted);
   text-decoration: none;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
+  transition: color 0.15s;
 }
 
-.back:hover {
+.seccion:hover {
   color: var(--fg);
+}
+
+/* La sección en la que estás parado */
+.seccion.activa {
+  color: var(--fg);
+}
+
+/* cdmx, todavía sin contenido */
+.seccion.pronto {
+  color: var(--border);
+  cursor: default;
 }
 
 /* ─── Main ───────────────────────────────────── */
@@ -77,68 +95,6 @@ main {
   max-width: 900px;
   width: 100%;
   margin: 0 auto;
-}
-
-/* ─── Inicio ─────────────────────────────────── */
-
-.home {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: calc(100vh - 80px);
-  gap: 56px;
-  padding-top: 0;
-}
-
-.hero h1 {
-  font-family: var(--font-display);
-  font-size: clamp(3.5rem, 10vw, 7rem);
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  color: var(--fg);
-}
-
-.main-nav {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  border-top: 1px solid var(--border);
-}
-
-.nav-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 0;
-  border-bottom: 1px solid var(--border);
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, 4vw, 2.25rem);
-  font-weight: 400;
-  color: var(--fg);
-  text-decoration: none;
-  transition: opacity 0.15s;
-}
-
-.nav-link:hover {
-  opacity: 0.5;
-}
-
-.nav-link.soon {
-  color: var(--muted);
-  pointer-events: none;
-}
-
-.tag {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  color: var(--muted);
-  border: 1px solid var(--border);
-  padding: 3px 8px;
-  border-radius: 2px;
-  text-transform: lowercase;
 }
 
 /* ─── Título de página ───────────────────────── */
@@ -351,7 +307,13 @@ main {
 
 @media (max-width: 600px) {
   header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
     padding: 20px 20px 16px;
+  }
+  .secciones {
+    gap: 14px;
   }
   main {
     padding: 28px 20px 60px;

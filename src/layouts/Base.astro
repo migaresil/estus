@@ -1,22 +1,38 @@
 ---
-// Layout base: el <head>, el header y el footer que comparten todas las páginas.
-// Antes esto estaba copiado en cada archivo HTML. Ahora vive en un solo lugar.
+// Layout base: el <head>, el header con la navegación y el pie.
+// Todas las páginas pasan por aquí.
 import '../styles/global.css';
 import { url } from '../lib/url.js';
 
-const {
-  titulo,
-  descripcion = 'Fotografías y escritos de Miguel Reséndiz.',
-  volver = null, // { texto, href } para el link de regreso del header
-} = Astro.props;
+const { titulo, descripcion = 'Fotografías, escritos y cine de Miguel Reséndiz.' } = Astro.props;
 
 const tituloCompleto = titulo ? `${titulo} — estus` : 'estus';
 
+// Las secciones del sitio. Agregar una es agregar una línea.
+// `pronto: true` la deja visible pero desactivada.
+const secciones = [
+  { nombre: 'galería', href: url('/') },
+  { nombre: 'escritos', href: url('/escritos') },
+  { nombre: 'pelis', href: url('/pelis') },
+  { nombre: 'cdmx', href: null, pronto: true },
+];
+
+// Para marcar en qué sección estás. Comparamos sin la diagonal final
+// porque Astro puede servir /escritos o /escritos/ según la página.
+const aquí = Astro.url.pathname.replace(/\/$/, '') || url('/');
+
+function esActiva(seccion) {
+  if (!seccion.href) return false;
+  const destino = seccion.href.replace(/\/$/, '');
+  // La galería vive en la raíz, así que solo coincide exacto; las demás
+  // también marcan cuando estás en una subpágina (una entrada del blog).
+  if (destino === url('/').replace(/\/$/, '')) return aquí === destino;
+  return aquí === destino || aquí.startsWith(destino + '/');
+}
+
 // Dónde más estoy. No es un "ver más": el contenido vive aquí, estos son
 // perfiles. Agregar uno es agregar una línea.
-const perfiles = [
-  { nombre: 'letterboxd', href: 'https://letterboxd.com/migaresil/' },
-];
+const perfiles = [{ nombre: 'letterboxd', href: 'https://letterboxd.com/migaresil/' }];
 ---
 
 <!DOCTYPE html>
@@ -36,7 +52,20 @@ const perfiles = [
   <body>
     <header>
       <a href={url('/')} class="site-name">estus</a>
-      {volver && <a href={volver.href} class="back">← {volver.texto}</a>}
+
+      <nav class="secciones">
+        {
+          secciones.map((s) =>
+            s.pronto ? (
+              <span class="seccion pronto">{s.nombre}</span>
+            ) : (
+              <a href={s.href} class={esActiva(s) ? 'seccion activa' : 'seccion'}>
+                {s.nombre}
+              </a>
+            )
+          )
+        }
+      </nav>
     </header>
 
     <slot />

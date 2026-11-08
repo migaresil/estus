@@ -12,6 +12,12 @@ export default defineConfig({
   site: 'https://migaresil.github.io',
   base: '/estus',
   trailingSlash: 'ignore',
+  // Las URLs viejas siguen funcionando: la galería vivía en /galeria antes
+  // de pasar a la raíz, y pelis se llamaba diario.
+  redirects: {
+    '/galeria': '/',
+    '/diario': '/pelis',
+  },
   image: {
     // Astro genera varios tamaños y sirve el que corresponda.
     responsiveStyles: true,

@@ -37,12 +37,11 @@ const resumen = desde
 ---
 
 <Base
-  titulo="diario"
+  titulo="pelis"
   descripcion="Lo que Miguel ha visto, con fecha y calificación."
-  volver={{ texto: 'inicio', href: url('/') }}
 >
-  <main class="ancho-diario">
-    <h2 class="page-title">diario</h2>
+  <main class="ancho-pelis">
+    <h2 class="page-title">pelis</h2>
 
     {
       peliculas.length === 0 ? (
@@ -91,7 +90,7 @@ const resumen = desde
 </Base>
 
 <style>
-  .ancho-diario {
+  .ancho-pelis {
     max-width: 1000px;
   }
 
