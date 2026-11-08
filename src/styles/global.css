@@ -360,3 +360,31 @@ main {
     gap: 40px;
   }
 }
+
+/* ─── Pie ────────────────────────────────────── */
+
+footer {
+  display: flex;
+  gap: 18px;
+  padding: 24px 40px 32px;
+  border-top: 1px solid var(--border);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+
+footer a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: var(--fg);
+}
+
+@media (max-width: 600px) {
+  footer {
+    padding: 20px 20px 28px;
+  }
+}

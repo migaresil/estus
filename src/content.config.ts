@@ -3,9 +3,6 @@
 // Una colección es un conjunto de datos que Astro carga durante el build y
 // valida contra un esquema. Si algo no cumple el esquema, el build falla
 // con un mensaje claro, en vez de que el sitio salga roto en silencio.
-//
-// Hoy hay dos colecciones. En la fase 2 se agrega `peliculas`, que usará
-// el mismo mecanismo pero con un loader propio que lee el RSS de Letterboxd.
 
 import { defineCollection, z } from 'astro:content';
 import { file, glob } from 'astro/loaders';
@@ -13,11 +10,6 @@ import { file, glob } from 'astro/loaders';
 // ─── Fotos ──────────────────────────────────────────────────────────────
 // Los pies de foto viven en src/data/fotos.json. Agregar una foto es
 // agregar un objeto ahí, más el archivo de imagen en src/assets/fotos/.
-//
-// El esquema no puede verificar que el archivo de imagen exista — eso lo
-// hace la página de galería, que avisa en la consola del build si falta
-// alguno. Pero sí garantiza que ninguna entrada se quede sin pie o sin
-// nombre de archivo.
 const fotos = defineCollection({
   loader: file('src/data/fotos.json'),
   schema: z.object({
@@ -42,4 +34,37 @@ const escritos = defineCollection({
   }),
 });
 
-export const collections = { fotos, escritos };
+// ─── Películas ──────────────────────────────────────────────────────────
+// A diferencia de las otras dos, este archivo no se escribe a mano: lo
+// genera scripts/actualizar-diario.mjs leyendo el RSS de Letterboxd, y el
+// Action lo corre todos los días.
+//
+// El archivo se acumula, no se reemplaza. El feed de Letterboxd solo
+// devuelve las ~50 entradas más recientes, así que si cada corrida
+// sustituyera el archivo, las películas viejas irían desapareciendo del
+// sitio solas. En vez de eso el script solo agrega lo que falta.
+//
+// Se puede editar a mano: el script respeta las entradas que ya existen y
+// nunca las sobrescribe.
+const peliculas = defineCollection({
+  loader: file('src/data/peliculas.json'),
+  schema: z.object({
+    titulo: z.string(),
+    anio: z.number().nullable(),
+    // Fecha en que la vio, formato YYYY-MM-DD. Es la que ordena el diario;
+    // la de publicación en Letterboxd puede ser otra.
+    vista: z.string(),
+    // Null cuando la marcó como vista sin ponerle estrellas.
+    calificacion: z.number().nullable(),
+    gusto: z.boolean(),
+    revision: z.boolean(),
+    // URL en el CDN de Letterboxd. Si algún día se quiere dejar de depender
+    // de ellos, el archivo ya guarda la URL y se pueden descargar todas.
+    poster: z.string().nullable(),
+    resena: z.string().nullable(),
+    enlace: z.string(),
+    tmdb: z.number().nullable(),
+  }),
+});
+
+export const collections = { fotos, escritos, peliculas };

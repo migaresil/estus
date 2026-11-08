@@ -1,0 +1,226 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/url.js';
+
+const peliculas = (await getCollection('peliculas')).sort((a, b) =>
+  b.data.vista.localeCompare(a.data.vista)
+);
+
+// 4.5 → ★★★★½ · 3 → ★★★
+function estrellas(n) {
+  if (!n) return null;
+  return '★'.repeat(Math.floor(n)) + (n % 1 ? '½' : '');
+}
+
+const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+function fechaCorta(iso) {
+  const [a, m, d] = iso.split('-');
+  return `${Number(d)} ${MESES[Number(m) - 1]}`;
+}
+
+// Agrupamos por mes para que el diario se lea como un diario y no como
+// una cuadrícula infinita sin referencias de tiempo.
+const porMes = [];
+for (const p of peliculas) {
+  const [a, m] = p.data.vista.split('-');
+  const clave = `${a}-${m}`;
+  const etiqueta = `${MESES[Number(m) - 1]} ${a}`;
+  if (porMes.at(-1)?.clave !== clave) porMes.push({ clave, etiqueta, items: [] });
+  porMes.at(-1).items.push(p);
+}
+
+const desde = peliculas.at(-1)?.data.vista.split('-') ?? null;
+const resumen = desde
+  ? `${peliculas.length} películas desde ${MESES[Number(desde[1]) - 1]} ${desde[0]}`
+  : null;
+---
+
+<Base
+  titulo="diario"
+  descripcion="Lo que Miguel ha visto, con fecha y calificación."
+  volver={{ texto: 'inicio', href: url('/') }}
+>
+  <main class="ancho-diario">
+    <h2 class="page-title">diario</h2>
+
+    {
+      peliculas.length === 0 ? (
+        <p class="vacio">
+          Todavía no hay películas. Corre <code>npm run diario</code> para traerlas
+          de Letterboxd.
+        </p>
+      ) : (
+        <>
+          <p class="resumen">{resumen}</p>
+
+          {porMes.map((mes) => (
+            <section class="mes">
+              <h3 class="mes-titulo">{mes.etiqueta}</h3>
+              <div class="peliculas">
+                {mes.items.map(({ data: p }) => (
+                  <article class="pelicula">
+                    <a href={p.enlace} class="poster" target="_blank" rel="noopener">
+                      {p.poster ? (
+                        <img src={p.poster} alt={`Póster de ${p.titulo}`} loading="lazy" decoding="async" />
+                      ) : (
+                        <span class="sin-poster">{p.titulo}</span>
+                      )}
+                    </a>
+                    <div class="meta">
+                      <p class="titulo">
+                        {p.titulo}
+                        {p.anio && <span class="anio">{p.anio}</span>}
+                      </p>
+                      <p class="linea">
+                        <span class="fecha">{fechaCorta(p.vista)}</span>
+                        {p.calificacion && <span class="estrellas">{estrellas(p.calificacion)}</span>}
+                        {p.revision && <span class="revision">revisión</span>}
+                      </p>
+                      {p.resena && <p class="resena">{p.resena}</p>}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))}
+        </>
+      )
+    }
+  </main>
+</Base>
+
+<style>
+  .ancho-diario {
+    max-width: 1000px;
+  }
+
+  .resumen {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin: -24px 0 48px;
+    letter-spacing: 0.02em;
+  }
+
+  .mes {
+    margin-bottom: 48px;
+  }
+
+  .mes-titulo {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    padding-bottom: 10px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .peliculas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 28px 20px;
+  }
+
+  .pelicula {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .poster {
+    display: block;
+    aspect-ratio: 2 / 3;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: opacity 0.15s;
+  }
+
+  .poster:hover {
+    opacity: 0.75;
+  }
+
+  .poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .sin-poster {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .titulo {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    line-height: 1.25;
+    color: var(--fg);
+  }
+
+  .anio {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 300;
+    color: var(--muted);
+    margin-left: 6px;
+  }
+
+  .linea {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 4px;
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 300;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  .estrellas {
+    color: var(--fg);
+    letter-spacing: 0;
+  }
+
+  .revision {
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 1px 5px;
+    font-size: 0.6rem;
+  }
+
+  .resena {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--fg);
+    margin-top: 2px;
+    white-space: pre-line;
+  }
+
+  .vacio {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 600px) {
+    .peliculas {
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 24px 14px;
+    }
+  }
+</style>

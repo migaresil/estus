@@ -11,6 +11,12 @@ const {
 } = Astro.props;
 
 const tituloCompleto = titulo ? `${titulo} — estus` : 'estus';
+
+// Dónde más estoy. No es un "ver más": el contenido vive aquí, estos son
+// perfiles. Agregar uno es agregar una línea.
+const perfiles = [
+  { nombre: 'letterboxd', href: 'https://letterboxd.com/migaresil/' },
+];
 ---
 
 <!DOCTYPE html>
@@ -34,5 +40,15 @@ const tituloCompleto = titulo ? `${titulo} — estus` : 'estus';
     </header>
 
     <slot />
+
+    <footer>
+      {
+        perfiles.map((p) => (
+          <a href={p.href} target="_blank" rel="noopener">
+            {p.nombre}
+          </a>
+        ))
+      }
+    </footer>
   </body>
 </html>
