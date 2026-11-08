@@ -4,23 +4,21 @@ on:
   # Cada push a main
   push:
     branches: [main]
-  # Una vez al día, 9:00 UTC (3:00 am en CDMX)
-  # Cuando haya integraciones externas (fase 2 en adelante) esto es lo que
-  # mantiene el sitio al día sin que tengas que hacer nada.
+  # Una vez al día, 9:00 UTC (3:00 am en CDMX).
+  # Esto es lo que trae las películas nuevas de Letterboxd sin que hagas nada.
   schedule:
     - cron: '0 9 * * *'
   # Botón manual en la pestaña Actions de GitHub.
-  # Sirve para probar un loader nuevo sin esperar al horario, y para revivir
-  # el workflow si GitHub lo apagó por inactividad.
+  # Sirve para traer el diario de inmediato sin esperar al horario, y para
+  # revivir el workflow si GitHub lo apagó por inactividad.
   workflow_dispatch:
 
-# Permisos que necesita el deploy a Pages
 permissions:
-  contents: read
+  # write hace falta para que el job pueda guardar el diario actualizado
+  contents: write
   pages: write
   id-token: write
 
-# Si hay dos builds encolados, deja solo el último
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -40,6 +38,29 @@ jobs:
 
       - name: Instalar dependencias
         run: npm ci
+
+      - name: Traer películas nuevas de Letterboxd
+        id: diario
+        # Si Letterboxd no responde, no tiramos el build: el sitio se publica
+        # con el diario que ya estaba guardado.
+        continue-on-error: true
+        run: npm run diario
+
+      - name: Guardar el diario si cambió
+        # El commit lleva [skip ci] para que GitHub no dispare otro build en
+        # cadena. Sin eso, cada actualización del diario causaría una corrida
+        # extra, y esa otra, y así.
+        run: |
+          if [[ -n "$(git status --porcelain src/data/peliculas.json)" ]]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add src/data/peliculas.json
+            git commit -m "diario: películas nuevas desde Letterboxd [skip ci]"
+            git push
+            echo "diario actualizado y guardado"
+          else
+            echo "sin películas nuevas"
+          fi
 
       - name: Construir el sitio
         run: npm run build
