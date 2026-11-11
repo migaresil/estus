@@ -13,8 +13,12 @@ import { file, glob } from 'astro/loaders';
 const fotos = defineCollection({
   loader: file('src/data/fotos.json'),
   schema: z.object({
+    // Ruta relativa a src/assets/fotos/, con la carpeta del álbum:
+    // "canada/vancouver.jpg"
     archivo: z.string(),
     pie: z.string(),
+    // La carpeta donde vive la foto. Null si está suelta en la raíz.
+    album: z.string().nullable().default(null),
   }),
 });
 

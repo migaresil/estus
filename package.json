@@ -13,6 +13,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "diario": "node scripts/actualizar-diario.mjs"
+    "diario": "node scripts/actualizar-diario.mjs",
+    "fotos": "node scripts/actualizar-fotos.mjs"
   }
 }

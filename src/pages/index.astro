@@ -3,20 +3,20 @@ import { getCollection } from 'astro:content';
 import { getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Lightbox from '../components/Lightbox.astro';
-import { url } from '../lib/url.js';
 
-// 1. Los pies de foto y el orden vienen de src/data/fotos.json
+// 1. Los pies de foto, el álbum y el orden vienen de src/data/fotos.json,
+//    que escribe scripts/actualizar-fotos.mjs. No se edita a mano salvo
+//    para corregir un pie.
 const fotos = await getCollection('fotos');
 
-// 2. Las imágenes vienen de src/assets/fotos/.
-//    import.meta.glob le dice a Astro "quiero todos estos archivos" en
-//    tiempo de build. Tiene que vivir en src/assets/ y no en public/,
-//    porque Astro solo optimiza lo que pasa por su pipeline; lo que está
-//    en public/ se copia tal cual, sin comprimir ni convertir a WebP.
-const imagenes = import.meta.glob('/src/assets/fotos/*.{jpeg,jpg,JPG,JPEG,png,webp}');
+// 2. Las imágenes vienen de src/assets/fotos/<album>/.
+//    El ** recorre las subcarpetas de álbum. Tienen que vivir en
+//    src/assets/ y no en public/, porque Astro solo optimiza lo que pasa
+//    por su pipeline; lo de public/ se copia tal cual.
+const imagenes = import.meta.glob('/src/assets/fotos/**/*.{jpeg,jpg,png,webp}');
 
-// 3. Cruzar las dos listas. Si un pie de foto apunta a un archivo que no
-//    existe, lo saltamos y lo reportamos en la consola del build en vez de
+// 3. Cruzar las dos listas. Si una entrada apunta a un archivo que no
+//    existe, la saltamos y la reportamos en la consola del build en vez de
 //    dejar una imagen rota en el sitio.
 const faltantes = [];
 const listas = [];
@@ -45,16 +45,11 @@ for (const foto of fotos) {
   const [chica, mediana, grande] = await Promise.all([
     getImage({ src: imagen, width: 400, format: 'webp', quality: 75 }),
     getImage({ src: imagen, width: 800, format: 'webp', quality: 75 }),
-    getImage({
-      src: imagen,
-      width: Math.min(1400, imagen.width),
-      format: 'webp',
-      quality: 72,
-    }),
+    getImage({ src: imagen, width: Math.min(1400, imagen.width), format: 'webp', quality: 72 }),
   ]);
 
   // Alto proporcional al ancho de 800, para que el navegador reserve el
-  // espacio correcto antes de cargar la imagen y la cuadrícula no brinque.
+  // espacio correcto antes de cargar y la cuadrícula no brinque.
   const alto = Math.round((imagen.height / imagen.width) * 800);
 
   listas.push({
@@ -64,6 +59,7 @@ for (const foto of fotos) {
     ancho: 800,
     alto,
     pie: foto.data.pie,
+    album: foto.data.album ?? null,
     id: foto.id,
   });
 }
@@ -72,47 +68,187 @@ if (faltantes.length > 0) {
   console.warn(
     `\n[galería] ${faltantes.length} de ${fotos.length} fotos no se encontraron en src/assets/fotos/ y no se van a publicar:\n` +
       faltantes.map((f) => `  · ${f}`).join('\n') +
-      `\n  Revisa que el nombre en fotos.json coincida exactamente con el del archivo,\n` +
-      `  incluyendo mayúsculas y extensión. Corre renombrar-fotos.py si hace falta.\n`
+      `\n  Corre \`npm run fotos\` para reconstruir el índice desde las carpetas.\n`
   );
+}
+
+// 4. Agrupar por álbum para la segunda vista. El orden de los álbumes lo
+//    da la primera foto de cada uno, así que reordenar el JSON reordena
+//    los álbumes sin configurar nada aparte.
+const grupos = [];
+for (const f of listas) {
+  const clave = f.album ?? '__sueltas__';
+  let g = grupos.find((x) => x.clave === clave);
+  if (!g) {
+    g = { clave, nombre: f.album ? f.album.replace(/-/g, ' ') : 'sueltas', items: [] };
+    grupos.push(g);
+  }
+  g.items.push(f);
 }
 ---
 
 <Base titulo="galería">
   <main>
-    <h2 class="page-title">galería</h2>
+    <div class="encabezado">
+      <h2 class="page-title">galería</h2>
+      {
+        grupos.length > 1 && (
+          <button id="alternar" type="button" aria-pressed="false">
+            ver por álbum
+          </button>
+        )
+      }
+    </div>
 
     {
       listas.length === 0 ? (
-        <p style="color: var(--muted); font-size: 0.85rem;">
-          Todavía no hay fotos publicadas. Pon los archivos en
-          <code>src/assets/fotos/</code> y revisa que los nombres coincidan con
-          <code>src/data/fotos.json</code>.
+        <p class="vacio">
+          Todavía no hay fotos publicadas. Pon los archivos en una carpeta de
+          álbum dentro de <code>src/assets/fotos/</code> y corre{' '}
+          <code>npm run fotos</code>.
         </p>
       ) : (
-        <div class="gallery">
-          {listas.map(({ src, srcset, grande, ancho, alto, pie, id }) => (
-            <figure>
-              <img
-                src={src}
-                srcset={srcset}
-                sizes="(max-width: 400px) 100vw, (max-width: 640px) 50vw, 33vw"
-                width={ancho}
-                height={alto}
-                alt={pie}
-                loading="lazy"
-                decoding="async"
-                data-grande={grande}
-                data-pie={pie}
-                data-id={id}
-              />
-              <figcaption>{pie}</figcaption>
-            </figure>
-          ))}
-        </div>
+        <>
+          {/* Modo libre: todas las fotos seguidas. Es lo que se ve al entrar. */}
+          <div id="vista-libre">
+            <div class="gallery">
+              {listas.map((f) => (
+                <figure>
+                  <img
+                    src={f.src}
+                    srcset={f.srcset}
+                    sizes="(max-width: 400px) 100vw, (max-width: 640px) 50vw, 33vw"
+                    width={f.ancho}
+                    height={f.alto}
+                    alt={f.pie}
+                    loading="lazy"
+                    decoding="async"
+                    data-grande={f.grande}
+                    data-pie={f.pie}
+                  />
+                  <figcaption>{f.pie}</figcaption>
+                </figure>
+              ))}
+            </div>
+          </div>
+
+          {/* Vista por álbum. Se renderiza siempre y se muestra con el botón;
+              son las mismas imágenes, así que no se descarga nada de más. */}
+          <div id="vista-albums" hidden>
+            {grupos.map((g) => (
+              <section class="album">
+                <h3 class="album-titulo">
+                  {g.nombre}
+                  <span class="cuenta">{g.items.length}</span>
+                </h3>
+                <div class="gallery">
+                  {g.items.map((f) => (
+                    <figure>
+                      <img
+                        src={f.src}
+                        srcset={f.srcset}
+                        sizes="(max-width: 400px) 100vw, (max-width: 640px) 50vw, 33vw"
+                        width={f.ancho}
+                        height={f.alto}
+                        alt={f.pie}
+                        loading="lazy"
+                        decoding="async"
+                        data-grande={f.grande}
+                        data-pie={f.pie}
+                      />
+                      <figcaption>{f.pie}</figcaption>
+                    </figure>
+                  ))}
+                </div>
+              </section>
+            ))}
+          </div>
+        </>
       )
     }
   </main>
 
   <Lightbox />
 </Base>
+
+<script>
+  // El modo libre es el default y funciona sin JavaScript. Esto solo
+  // agrega la posibilidad de alternar.
+  const boton = document.getElementById('alternar');
+  const libre = document.getElementById('vista-libre');
+  const albums = document.getElementById('vista-albums');
+
+  if (boton && libre && albums) {
+    boton.addEventListener('click', () => {
+      const verAlbums = albums.hasAttribute('hidden');
+      albums.toggleAttribute('hidden', !verAlbums);
+      libre.toggleAttribute('hidden', verAlbums);
+      boton.textContent = verAlbums ? 'ver todas' : 'ver por álbum';
+      boton.setAttribute('aria-pressed', String(verAlbums));
+      window.scrollTo({ top: 0 });
+    });
+  }
+</script>
+
+<style>
+  .encabezado {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .encabezado .page-title {
+    margin-bottom: 0;
+  }
+
+  #alternar {
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    padding: 0 0 2px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  #alternar:hover {
+    color: var(--fg);
+    border-color: var(--fg);
+  }
+
+  .album {
+    margin-bottom: 48px;
+  }
+
+  .album-titulo {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cuenta {
+    font-size: 0.62rem;
+    color: var(--border);
+    letter-spacing: 0.04em;
+  }
+
+  .vacio {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+</style>
