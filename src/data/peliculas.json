@@ -1,5 +1,18 @@
 [
   {
+    "id": "letterboxd-watch-1592947032",
+    "titulo": "Shanghai Blues",
+    "anio": 1984,
+    "vista": "2026-11-18",
+    "calificacion": 4,
+    "gusto": true,
+    "revision": false,
+    "poster": "https://a.ltrbxd.com/resized/film-poster/1/0/9/0/8/7/109087-shanghai-blues-0-600-0-900-crop.jpg?v=3f3ae08fc1",
+    "resena": null,
+    "enlace": "https://letterboxd.com/migaresil/film/shanghai-blues/",
+    "tmdb": 143479
+  },
+  {
     "id": "letterboxd-review-1585585442",
     "titulo": "Good Time",
     "anio": 2017,
