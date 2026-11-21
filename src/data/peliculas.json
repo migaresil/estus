@@ -1,5 +1,18 @@
 [
   {
+    "id": "letterboxd-review-1595679858",
+    "titulo": "The Full Monty",
+    "anio": 1997,
+    "vista": "2026-11-20",
+    "calificacion": 4,
+    "gusto": true,
+    "revision": false,
+    "poster": "https://a.ltrbxd.com/resized/film-poster/4/7/1/7/0/47170-the-full-monty-0-600-0-900-crop.jpg?v=0b85ca5b62",
+    "resena": "así se sintió estar desempleado este julio",
+    "enlace": "https://letterboxd.com/migaresil/film/the-full-monty/",
+    "tmdb": 9427
+  },
+  {
     "id": "letterboxd-review-1594300719",
     "titulo": "El vagabundo",
     "anio": 1953,
